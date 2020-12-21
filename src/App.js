@@ -1,18 +1,20 @@
-// src/App.js
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ConversationsList from "./screens/ConversationsList";
 import ConversationThread from "./screens/ConversationThread";
+import { AddCompactModeFeature } from "./lib/CompactMode";
 
 export default function App() {
   return (
-    <Router>
-      <Container>
-        <ConversationsList />
-        <Route path="/c/:channel" component={ConversationThread} />
-      </Container>
-    </Router>
+    <AddCompactModeFeature>
+      <Router>
+        <Container>
+          <ConversationsList />
+          <Route path="/c/:channel" component={ConversationThread} />
+        </Container>
+      </Router>
+    </AddCompactModeFeature>
   );
 }
 
