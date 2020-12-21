@@ -19,9 +19,7 @@ export default function ConversationsList() {
           //  with a 200 status code, so this is necessary
           throw new Error(res.data.error);
         }
-        if (Math.random() < 0.5) {
-          throw "ERR";
-        }
+
         setConversations({ status: "success", data: res.data });
       } catch (error) {
         setConversations({ status: "error", error });
@@ -32,9 +30,18 @@ export default function ConversationsList() {
   }, [setConversations]);
   return (
     <Container>
-      <Item to="/c/general">#general</Item>
+      {conversations.status === "loading" && <p>Loading...</p>}
       <Item to="/c/errors">#errors</Item>
-      <Item to="/c/random">#random</Item>
+      <Item to="/c/random">#random</Item>{" "}
+      {conversations.status === "error" && <p>Error :(</p>}
+      {conversations.status === "success" &&
+        conversations.data.channels.map((channel) => {
+          return (
+            <Item key={channel.id} to={`/c/${channel.id}`}>
+              #{channel.name}
+            </Item>
+          );
+        })}
     </Container>
   );
 }
